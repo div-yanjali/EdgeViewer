@@ -1,7 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 31git add app/src/main/cpp
+git add app/src/main/jniLibs
+
+git commit -m "fix(native): corrected C++ and jniLibs folder structure for OpenCV"
+git push
+
 
     defaultConfig {
         applicationId "com.example.edgeviewer"
