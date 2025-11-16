@@ -44,9 +44,10 @@ This project shows end-to-end understanding of **Android native pipelines, JNI, 
 ---
 
 ## 🌐 Web Viewer (TypeScript)
-- Displays sample processed frame (PNG/Base64)  
-- FPS overlay (optional)  
-- Simple DOM structure  
+- Simple TypeScript + HTML viewer 
+- Loads a sample processed image.  
+- Displays optional stats (FPS, resolution)
+- Demonstrates a clean TS setup using tsc
 
 ---
 
@@ -108,9 +109,47 @@ Install the following:
 
 ### **2. Add OpenCV Native Libraries**
 
-Download the OpenCV Android SDK and copy:
+- Download the OpenCV Android SDK and copy:
 
+      OpenCV-android-sdk/sdk/native/libs/armeabi-v7a/libopencv_java4.so
+  Place it here:
+  
+      app/src/main/jniLibs/armeabi-v7a/
 
+### **3. Configure CMake**
+
+    app/src/main/cpp/CMakeLists.txt:
+    
+    cmake_minimum_required(VERSION 3.18.1)
+    project("edgeviewer")
+    
+    add_library(native-lib SHARED native-lib.cpp)
+    
+    find_library(log-lib log)
+    
+    add_library(opencv_java4 SHARED IMPORTED)
+    set_target_properties(opencv_java4 PROPERTIES
+        IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/../jniLibs/armeabi-v7a/libopencv_java4.so)
+    
+    target_link_libraries(
+            native-lib
+            opencv_java4
+            ${log-lib})
+    
+# 🌐 Web Viewer Setup (TypeScript)
+
+Navigate to /web:
+
+    Install packages:
+    npm install
+
+Build TypeScript:
+
+    npx tsc
+
+Open the viewer:
+
+    web/index.html
 
 # ⚙️ Project Structure
 
@@ -148,3 +187,13 @@ EdgeViewer/
 ├── settings.gradle
 ├── local.properties
 └── README.md
+
+```
+# 🏁 Final Notes
+
+This project demonstrates:
+- Android Camera2 + TextureView
+- Native C++ + OpenCV edge processing
+- OpenGL ES rendering pipeline
+- Web viewer using TypeScript
+- Clean, modular project structure
